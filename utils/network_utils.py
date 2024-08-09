@@ -1,6 +1,8 @@
 import requests
 import socket
 from .logger import log
+import smtplib
+from email.mime.text import MIMEText
 
 def test_connection(url, should_connect=True):
     try:
@@ -17,10 +19,18 @@ def test_connection(url, should_connect=True):
         else:
             log("success", f"Successfully blocked connection to {url}")
 
-def test_smtp_connection(server, port):
+def test_smtp_connection(server, port, username, password, recipient):
     try:
-        with socket.create_connection((server, port), timeout=5):
-            log("success", f"Successfully connected to SMTP server {server}:{port}")
+        msg = MIMEText("This email confirms that SMTP traffic is allowed, and this email is well received.")
+        msg['From'] = username
+        msg['To'] = recipient
+        msg['Subject'] = "Success: NS SMTP Test"
+        
+        with smtplib.SMTP(server, port) as server:
+            server.starttls()
+            server.login(username, password)
+            server.sendmail(username, recipient, msg.as_string())
+        log("success", f"Successfully connected to SMTP server {server}:{port}")
     except (socket.timeout, ConnectionRefusedError):
         log("error", f"Failed to connect to SMTP server {server}:{port}")
 
