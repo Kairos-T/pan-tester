@@ -26,10 +26,10 @@ def test_smtp_connection(server, port, username, password, recipient):
         msg['To'] = recipient
         msg['Subject'] = "Success: NS SMTP Test"
         
-        with smtplib.SMTP(server, port) as server:
-            server.starttls()
-            server.login(username, password)
-            server.sendmail(username, recipient, msg.as_string())
+        with smtplib.SMTP(server, port) as smtp_server:
+            smtp_server.starttls()
+            smtp_server.login(username, password)
+            smtp_server.sendmail(username, recipient, msg.as_string())
         log("success", f"Successfully connected to SMTP server {server}:{port}")
     except (socket.timeout, ConnectionRefusedError):
         log("error", f"Failed to connect to SMTP server {server}:{port}")
