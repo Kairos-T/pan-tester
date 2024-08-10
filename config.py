@@ -12,7 +12,7 @@ SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
 SMTP_USERNAME = os.getenv("GMAIL_USERNAME")
 SMTP_PASSWORD = os.getenv("GMAIL_PASSWORD")
-SMTP_RECIPEINT = os.getenv("RECIPIENT_EMAIL")
+SMTP_RECIPIENT = os.getenv("RECIPIENT_EMAIL")
 
 # Remote access settings
 SSH_PORT = 22
