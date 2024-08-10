@@ -1,10 +1,18 @@
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 # Test URLs
 ALLOWED_WEBSITES = ["https://www.google.com"]
 BLOCKED_WEBSITES = ["https://www.taobao.com"]
 
 # Email settings
-SMTP_SERVER = "smtp.example.com"
+SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 587
+SMTP_USERNAME = os.getenv("GMAIL_USERNAME")
+SMTP_PASSWORD = os.getenv("GMAIL_PASSWORD")
+SMTP_RECIPEINT = os.getenv("RECIPIENT_EMAIL")
 
 # Remote access settings
 SSH_PORT = 22
