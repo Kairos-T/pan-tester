@@ -3,6 +3,7 @@ import socket
 from .logger import log
 import smtplib
 from email.mime.text import MIMEText
+import ssl
 
 def test_connection(url, should_connect=True):
     try:
@@ -26,13 +27,18 @@ def test_smtp_connection(server, port, username, password, recipient):
         msg['To'] = recipient
         msg['Subject'] = "Success: NS SMTP Test"
         
+        context = ssl._create_unverified_context()
+        context.options |= ssl.OP_LEGACY_SERVER_CONNECT
+
         with smtplib.SMTP(server, port) as smtp_server:
-            smtp_server.starttls()
+            smtp_server.starttls(context=context)
             smtp_server.login(username, password)
             smtp_server.sendmail(username, recipient, msg.as_string())
         log("success", f"Successfully connected to SMTP server {server}:{port}")
-    except (socket.timeout, ConnectionRefusedError):
-        log("error", f"Failed to connect to SMTP server {server}:{port}")
+    except (socket.timeout, ConnectionRefusedError) as e:
+        log("error", f"Failed to connect to SMTP server {server}:{port}. Error: {str(e)}")
+    except ssl.SSLError as e:
+        log("error", f"SSL error while connecting to SMTP server {server}:{port}. Error: {str(e)}")
 
 def test_port_connection(host, port, service_name):
     try:
