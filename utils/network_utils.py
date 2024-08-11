@@ -9,9 +9,9 @@ def test_connection(url, should_connect=True):
     requests.packages.urllib3.disable_warnings()
     try:
         response = requests.get(url, timeout=5, verify=False)
-        if response.status_code != 503 and should_connect:
+        if b'Application Blocked' not in response.content and should_connect:
             log("success", f"Successfully connected to {url}")
-        elif response.status_code == 503 and not should_connect:
+        elif b'Application Blocked' not in response.content and not should_connect:
             log("success", f"Successfully blocked connection to {url}")
         else:
             log("error", f"Unexpected result for {url}")
