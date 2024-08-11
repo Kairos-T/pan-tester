@@ -17,7 +17,7 @@ def main():
         return
 
     if args.all or args.web:
-        os.environ["OPENSSL_CONF_DIR"] = "./openssl.cnf"
+        os.environ["OPENSSL_CONF"] = "./openssl.cnf"
         web_traffic.run_tests(args.profile)
     
     if args.all or args.email:
