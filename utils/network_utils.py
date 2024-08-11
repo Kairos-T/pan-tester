@@ -11,7 +11,7 @@ def test_connection(url, should_connect=True):
         response = requests.get(url, timeout=5, verify=False)
         if b'Application Blocked' not in response.content and should_connect:
             log("success", f"Successfully connected to {url}")
-        elif b'Application Blocked' not in response.content and not should_connect:
+        elif b'Application Blocked' in response.content and not should_connect:
             log("success", f"Successfully blocked connection to {url}")
         else:
             log("error", f"Unexpected result for {url}")
