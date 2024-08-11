@@ -4,8 +4,6 @@ from .logger import log
 import smtplib
 from email.mime.text import MIMEText
 import ssl
-from fbchat import Client
-from fbchat.models import *
 
 def test_connection(url, should_connect=True):
     requests.packages.urllib3.disable_warnings()
@@ -23,13 +21,13 @@ def test_connection(url, should_connect=True):
         else:
             log("success", f"Successfully blocked connection to {url}")
 
-def test_facebook_message(email, password, thread_id, session_cookies):
-    try:
-        client = Client(email, password, session_cookies=session_cookies)
-        client.send(Message(text="This is a test message"), thread_id=thread_id, thread_type=ThreadType.USER)
-        log("error", "Failed to block facebook-chat application")
-    except:
-        log("success", "Successfully blocked facebook-chat application")
+# def test_facebook_message(email, password, thread_id, session_cookies):
+#     try:
+#         client = Client(email, password, session_cookies=session_cookies)
+#         client.send(Message(text="This is a test message"), thread_id=thread_id, thread_type=ThreadType.USER)
+#         log("error", "Application facebook-chat can be accessed")
+#     except:
+#         log("success", "Application facebook-chat cannot be accessed")
 
 def test_smtp_connection(server, port, username, password, recipient):
     try:
@@ -50,13 +48,3 @@ def test_smtp_connection(server, port, username, password, recipient):
         log("error", f"Failed to connect to SMTP server {server}:{port}. Error: {str(e)}")
     except ssl.SSLError as e:
         log("error", f"SSL error while connecting to SMTP server {server}:{port}. Error: {str(e)}")
-
-def test_port_connection(host, port, service_name):
-    try:
-        with socket.create_connection((host, port), timeout=5):
-            log("success", f"Successfully connected to {service_name} on {host}:{port}")
-    except (socket.timeout, ConnectionRefusedError):
-        log("error", f"Failed to connect to {service_name} on {host}:{port}")
-
-def test_vpn_connection(server, port):
-    log("info", f"Testing VPN connection to {server}:{port}")
