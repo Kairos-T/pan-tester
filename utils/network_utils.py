@@ -24,9 +24,8 @@ def test_connection(url, should_connect=True):
             log("success", f"Successfully blocked connection to {url}")
 
 def test_facebook_message(email, password, thread_id, session_cookies):
-    client = Client(email, password, session_cookies=session_cookies)
-
     try:
+        client = Client(email, password, session_cookies=session_cookies)
         client.send(Message(text="This is a test message"), thread_id=thread_id, thread_type=ThreadType.USER)
         log("error", "Failed to block facebook-chat application")
     except:
