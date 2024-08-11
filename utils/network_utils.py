@@ -4,6 +4,8 @@ from .logger import log
 import smtplib
 from email.mime.text import MIMEText
 import ssl
+from fbchat import Client
+from fbchat.models import *
 
 def test_connection(url, should_connect=True):
     requests.packages.urllib3.disable_warnings()
@@ -20,6 +22,15 @@ def test_connection(url, should_connect=True):
             log("error", f"Failed to connect to {url}")
         else:
             log("success", f"Successfully blocked connection to {url}")
+
+def test_facebook_message(email, password, thread_id, session_cookies):
+    client = Client(email, password, session_cookies=session_cookies)
+
+    try:
+        client.send(Message(text="This is a test message"), thread_id=thread_id, thread_type=ThreadType.USER)
+        log("error", "Failed to block facebook-chat application")
+    except:
+        log("success", "Successfully blocked facebook-chat application")
 
 def test_smtp_connection(server, port, username, password, recipient):
     try:
