@@ -1,4 +1,5 @@
 import argparse
+import os
 from tests import web_traffic, email_traffic
 from utils.logger import log
 
@@ -16,6 +17,7 @@ def main():
         return
 
     if args.all or args.web:
+        os.environ["OPENSSL_CONF_DIR"] = "./openssl.cnf"
         web_traffic.run_tests(args.profile)
     
     if args.all or args.email:
