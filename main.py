@@ -7,11 +7,16 @@ def main():
     parser.add_argument("--web", action="store_true", help="Run web traffic tests")
     parser.add_argument("--email", action="store_true", help="Run email traffic tests")
     parser.add_argument("--all", action="store_true", help="Run all tests")
+    parser.add_argument("--profile", choices=["Sales", "HR", "IT"], help="Set the user profile")
 
     args = parser.parse_args()
 
+    if not args.profile:
+        log("error", "Please specify a profile using the --profile argument [Sales, HR, IT]")
+        return
+
     if args.all or args.web:
-        web_traffic.run_tests()
+        web_traffic.run_tests(args.profile)
     
     if args.all or args.email:
         email_traffic.run_tests()

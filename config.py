@@ -4,8 +4,17 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Test URLs
-ALLOWED_WEBSITES = ["https://www.google.com"]
-BLOCKED_WEBSITES = ["https://www.taobao.com", "https://www.minecraft.net"]
+BASE_ALLOWED_WEBSITES = ["https://www.google.com"]
+BASE_BLOCKED_WEBSITES = ["https://www.taobao.com", "https://www.minecraft.net"]
+
+HR_ALLOWED_WEBSITES = ["https://www.linkedin.com", "https://www.facebook.com"]
+HR_BLOCKED_WEBSITES = ["https://drive.google.com", "https://www.onedrive.com"]
+
+SALES_ALLOWED_WEBSITES = ["https://www.facebook.com"]
+SALES_BLOCKED_WEBSITES = ["https://www.linkedin.com", "https://drive.google.com", "https://www.onedrive.com"]
+
+IT_ALLOWED_WEBSITES = ["https://drive.google.com", "https://www.onedrive.com"]
+IT_BLOCKED_WEBSITES = ["https://www.facebook.com", "https://www.linkedin.com"]
 
 # Email settings
 SMTP_SERVER = "smtp.gmail.com"
