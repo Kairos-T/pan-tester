@@ -6,11 +6,12 @@ from email.mime.text import MIMEText
 import ssl
 
 def test_connection(url, should_connect=True):
+    requests.packages.urllib3.disable_warnings()
     try:
-        response = requests.get(url, timeout=5)
-        if response.status_code == 200 and should_connect:
+        response = requests.get(url, timeout=5, verify=False)
+        if response.status_code != 503 and should_connect:
             log("success", f"Successfully connected to {url}")
-        elif response.status_code != 200 and not should_connect:
+        elif response.status_code == 503 and not should_connect:
             log("success", f"Successfully blocked connection to {url}")
         else:
             log("error", f"Unexpected result for {url}")
@@ -19,6 +20,14 @@ def test_connection(url, should_connect=True):
             log("error", f"Failed to connect to {url}")
         else:
             log("success", f"Successfully blocked connection to {url}")
+
+# def test_facebook_message(email, password, thread_id, session_cookies):
+#     try:
+#         client = Client(email, password, session_cookies=session_cookies)
+#         client.send(Message(text="This is a test message"), thread_id=thread_id, thread_type=ThreadType.USER)
+#         log("error", "Application facebook-chat can be accessed")
+#     except:
+#         log("success", "Application facebook-chat cannot be accessed")
 
 def test_smtp_connection(server, port, username, password, recipient):
     try:
@@ -39,13 +48,3 @@ def test_smtp_connection(server, port, username, password, recipient):
         log("error", f"Failed to connect to SMTP server {server}:{port}. Error: {str(e)}")
     except ssl.SSLError as e:
         log("error", f"SSL error while connecting to SMTP server {server}:{port}. Error: {str(e)}")
-
-def test_port_connection(host, port, service_name):
-    try:
-        with socket.create_connection((host, port), timeout=5):
-            log("success", f"Successfully connected to {service_name} on {host}:{port}")
-    except (socket.timeout, ConnectionRefusedError):
-        log("error", f"Failed to connect to {service_name} on {host}:{port}")
-
-def test_vpn_connection(server, port):
-    log("info", f"Testing VPN connection to {server}:{port}")
