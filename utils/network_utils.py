@@ -8,9 +8,9 @@ import ssl
 def test_connection(url, should_connect=True):
     try:
         response = requests.get(url, timeout=5)
-        if response.status_code == 200 and should_connect:
+        if response.status_code != 503 and should_connect:
             log("success", f"Successfully connected to {url}")
-        elif response.status_code != 200 and not should_connect:
+        elif response.status_code == 503 and not should_connect:
             log("success", f"Successfully blocked connection to {url}")
         else:
             log("error", f"Unexpected result for {url}")

@@ -5,7 +5,7 @@ load_dotenv()
 
 # Test URLs
 ALLOWED_WEBSITES = ["https://www.google.com"]
-BLOCKED_WEBSITES = ["https://www.taobao.com"]
+BLOCKED_WEBSITES = ["https://www.taobao.com", "https://www.minecraft.net"]
 
 # Email settings
 SMTP_SERVER = "smtp.gmail.com"
