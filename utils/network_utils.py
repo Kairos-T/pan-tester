@@ -6,8 +6,9 @@ from email.mime.text import MIMEText
 import ssl
 
 def test_connection(url, should_connect=True):
+    requests.packages.urllib3.disable_warnings()
     try:
-        response = requests.get(url, timeout=5)
+        response = requests.get(url, timeout=5, verify=False)
         if response.status_code != 503 and should_connect:
             log("success", f"Successfully connected to {url}")
         elif response.status_code == 503 and not should_connect:
